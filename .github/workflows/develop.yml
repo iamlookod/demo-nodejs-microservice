@@ -1,0 +1,75 @@
+name: Develop
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  build_posts_service:
+    runs-on: ubuntu-latest
+
+    outputs:
+      image: ${{ steps.build.outputs.image }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        id: build
+        env:
+          SERVICE_NAME: posts-service
+        run: |
+          docker build ./$SERVICE_NAME -t $SERVICE_NAME:latest 
+          # docker push $SERVICE_NAME:latest
+          echo "::set-output name=image::$SERVICE_NAME:latest"
+
+  build_theards_service:
+    runs-on: ubuntu-latest
+
+    outputs:
+      image: ${{ steps.build.outputs.image }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        id: build
+        env:
+          SERVICE_NAME: threads-service
+        run: |
+          docker build ./$SERVICE_NAME -t $SERVICE_NAME:latest 
+          # docker push $SERVICE_NAME:latest
+          echo "::set-output name=image::$SERVICE_NAME:latest"
+          
+  build_users_service:
+    runs-on: ubuntu-latest
+
+    outputs:
+      image: ${{ steps.build.outputs.image }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        id: build
+        env:
+          SERVICE_NAME: users-service
+        run: |
+          docker build ./$SERVICE_NAME -t $SERVICE_NAME:latest 
+          # docker push $SERVICE_NAME:latest
+          echo "::set-output name=image::$SERVICE_NAME:latest"
+  
+  publish:
+    runs-on: ubuntu-latest
+
+    needs: [build_posts_service, build_theards_service, build_users_service]
+
+    steps:
+      - name: Deploy
+        run: |
+          echo ${{needs.build_posts_service.outputs.image}}
+          echo ${{needs.build_theards_service.outputs.image}}
+          echo ${{needs.build_users_service.outputs.image}}
