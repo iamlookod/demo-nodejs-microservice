@@ -1,0 +1,16 @@
+version: "3"
+services:
+  posts-service:
+    build: "./posts-service"
+    ports:
+      - 3001:3000
+
+  theards-service:
+    build: "./theards-service"
+    ports:
+      - 3002:3000
+
+  users-service:
+    build: "./users-service"
+    ports:
+      - 3003:3000
