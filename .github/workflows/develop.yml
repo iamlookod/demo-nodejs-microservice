@@ -37,7 +37,7 @@ jobs:
       - name: Build
         id: build
         env:
-          SERVICE_NAME: threads-service
+          SERVICE_NAME: theards-service
         run: |
           docker build ./$SERVICE_NAME -t $SERVICE_NAME:latest 
           # docker push $SERVICE_NAME:latest
