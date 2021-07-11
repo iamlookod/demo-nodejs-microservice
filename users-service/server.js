@@ -1,6 +1,15 @@
+require('dotenv').config();
 const Koa = require("koa");
 const router = require("@koa/router")();
 const db = require("./db.json");
+const { createConnection } = require('typeorm')
+
+createConnection({
+  type: "postgres",
+  url: process.env.DATABASE_URL,
+})
+  .then(() => console.log("DB connect"))
+  .catch((e) => console.log(e));
 
 const app = new Koa();
 
@@ -31,6 +40,8 @@ router.get("/", function (ctx) {
 
 app.use(router.routes());
 
+
 app.listen(3000);
+
 
 console.log("Worker started");

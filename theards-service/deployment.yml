@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: theards
+  labels:
+    app: theards
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: theards
+  template:
+    metadata:
+      labels:
+        app: theards
+    spec:
+      containers:
+        - name: theards
+          image: iamlookod/theards-service:latest
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: theards-service
+spec:
+  selector:
+    app: theards
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30001

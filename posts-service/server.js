@@ -1,8 +1,12 @@
+require('dotenv').config();
 const Koa = require("koa");
 const router = require("@koa/router")();
+const Mongoose = require("mongoose");
 const db = require("./db.json");
 
 const app = new Koa();
+
+Mongoose.connect(process.env.MONGO_URL).then(() => console.log('Mongo conneted')).catch((e) => console.log(e));
 
 // Log requests
 app.use(function (ctx, next) {
